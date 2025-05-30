@@ -1,0 +1,119 @@
+﻿@model SiteTransporteNovo.Models.Agendamento
+
+@{
+    ViewData["Title"] = "Novo Agendamento";
+}
+
+<div class="card p-4 mx-auto" style="max-width: 700px; border-radius: 15px;">
+    <h2 class="mb-4">Novo Agendamento</h2>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            Por favor, corrija os erros abaixo.
+        </div>
+    }
+
+    <form asp-controller="Agendamento" asp-action="Create" method="post">
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="Nome" class="form-label">Nome</label>
+            <input asp-for="Nome" class="form-control" />
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Telefone" class="form-label">Telefone</label>
+            <input asp-for="Telefone" class="form-control" />
+            <span asp-validation-for="Telefone" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Data" class="form-label">Data</label>
+            <input asp-for="Data" type="date" class="form-control" />
+            <span asp-validation-for="Data" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Hora" class="form-label">Hora</label>
+            <input asp-for="Hora" type="time" class="form-control" />
+            <span asp-validation-for="Hora" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Local da Consulta</label>
+            <select asp-for="LocalConsulta" class="form-select" onchange="toggleOutroConsulta(this)">
+                <option value="">Selecione...</option>
+                @foreach (var item in ViewBag.LocaisConsulta as List<string>)
+                {
+                    <option value="@item">@item</option>
+                }
+            </select>
+            <div id="divOutroConsulta" style="display:none;">
+                <label>Outro Local da Consulta</label>
+                <input asp-for="OutroLocalConsulta" class="form-control" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Local para Ir Buscar</label>
+            <select asp-for="LocalBusca" class="form-select" onchange="toggleOutroBusca(this)">
+                <option value="">Selecione...</option>
+                @foreach (var item in ViewBag.LocaisBusca as List<string>)
+                {
+                    <option value="@item">@item</option>
+                }
+            </select>
+            <div id="divOutroBusca" style="display:none;">
+                <label>Outro Local para Ir Buscar</label>
+                <input asp-for="OutroLocalBusca" class="form-control" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PontoReferencia" class="form-label">Ponto de Referência</label>
+            <input asp-for="PontoReferencia" class="form-control" />
+            <span asp-validation-for="PontoReferencia" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Motivo" class="form-label">Motivo</label>
+            <input asp-for="Motivo" class="form-control" />
+            <span asp-validation-for="Motivo" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Precisa de Acompanhante?</label><br />
+            <input type="radio" asp-for="PrecisaAcompanhante" value="true" /> Sim
+            <input type="radio" asp-for="PrecisaAcompanhante" value="false" checked /> Não
+            <span asp-validation-for="PrecisaAcompanhante" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Observacao" class="form-label">Observação</label>
+            <textarea asp-for="Observacao" class="form-control"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Salvar Agendamento</button>
+        <a asp-controller="Menu" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+
+    </form>
+</div>
+
+<script>
+    function toggleOutroConsulta(select) {
+        document.getElementById('divOutroConsulta').style.display = select.value === 'Outros' ? 'block' : 'none';
+    }
+
+    function toggleOutroBusca(select) {
+        document.getElementById('divOutroBusca').style.display = select.value === 'Outros' ? 'block' : 'none';
+    }
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,35 @@
+﻿@model SiteTransporteNovo.Models.Agendamento
+
+@{
+    ViewData["Title"] = "Cancelar Agendamento";
+}
+
+<div class="card p-4 mx-auto text-center" style="max-width: 500px; border-radius: 15px;">
+    <h2 class="mb-4 text-danger">Tem certeza que deseja cancelar este agendamento?</h2>
+
+    <p><strong>Nome:</strong> @Model.Nome</p>
+    <p><strong>Telefone:</strong> @Model.Telefone</p>
+    <p><strong>Data:</strong> @Model.Data.ToShortDateString()</p>
+    <p><strong>Hora:</strong> @Model.Hora</p>
+    <p><strong>Local da Consulta:</strong> @Model.LocalConsulta</p>
+    @if (!string.IsNullOrEmpty(Model.OutroLocalConsulta))
+    {
+        <p><strong>Outro Local da Consulta:</strong> @Model.OutroLocalConsulta</p>
+    }
+    <p><strong>Local para Ir Buscar:</strong> @Model.LocalBusca</p>
+    @if (!string.IsNullOrEmpty(Model.OutroLocalBusca))
+    {
+        <p><strong>Outro Local para Ir Buscar:</strong> @Model.OutroLocalBusca</p>
+    }
+    <p><strong>Ponto de Referência:</strong> @Model.PontoReferencia</p>
+    <p><strong>Motivo:</strong> @Model.Motivo</p>
+    <p><strong>Precisa Acompanhante:</strong> @(Model.PrecisaAcompanhante ? "Sim" : "Não")</p>
+    <p><strong>Responsável:</strong> @Model.Responsavel</p>
+
+    <form asp-action="Cancelar" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger w-100 mb-2">Confirmar Cancelamento</button>
+        <a asp-action="CancelarAgendamento" class="btn btn-secondary w-100">Voltar</a>
+    </form>
+</div>
+

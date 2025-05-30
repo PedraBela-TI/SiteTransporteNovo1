@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35514.174
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteTransporteNovo", "SiteTransporteNovo\SiteTransporteNovo.csproj", "{40567624-4692-411D-8866-84CAD1BF18EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{7919E926-39B0-4DE6-976C-6577AAD4BCE4}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		app.yaml = app.yaml
+		Dockerfile.txt = Dockerfile.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40567624-4692-411D-8866-84CAD1BF18EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40567624-4692-411D-8866-84CAD1BF18EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40567624-4692-411D-8866-84CAD1BF18EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40567624-4692-411D-8866-84CAD1BF18EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,33 @@
+﻿@model SiteTransporteNovo.Models.Agendamento
+
+@{
+    ViewData["Title"] = "Detalhes do Agendamento";
+}
+
+<div class="card p-4 mx-auto" style="max-width: 500px; border-radius: 15px;">
+    <h2 class="mb-4 text-center">Detalhes do Agendamento</h2>
+
+    <p><strong>Nome:</strong> @Model.Nome</p>
+    <p><strong>Telefone:</strong> @Model.Telefone</p>
+
+    <p><strong>Local da Consulta:</strong> @Model.LocalConsulta</p>
+    @if (!string.IsNullOrEmpty(Model.OutroLocalConsulta))
+    {
+        <p><strong>Outro Local da Consulta:</strong> @Model.OutroLocalConsulta</p>
+    }
+
+    <p><strong>Local para Ir Buscar:</strong> @Model.LocalBusca</p>
+    @if (!string.IsNullOrEmpty(Model.OutroLocalBusca))
+    {
+        <p><strong>Outro Local para Ir Buscar:</strong> @Model.OutroLocalBusca</p>
+    }
+
+    <p><strong>Data:</strong> @Model.Data.ToShortDateString()</p>
+    <p><strong>Hora:</strong> @Model.Hora</p>
+    <p><strong>Ponto de Referência:</strong> @Model.PontoReferencia</p>
+    <p><strong>Motivo:</strong> @Model.Motivo</p>
+    <p><strong>Precisa Acompanhante:</strong> @(Model.PrecisaAcompanhante ? "Sim" : "Não")</p>
+    <p><strong>Responsável:</strong> @Model.Responsavel</p>
+
+    <a asp-controller="Menu" asp-action="Index" class="btn btn-secondary w-100 mt-3">Voltar ao Menu</a>
+</div>
