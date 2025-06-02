@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Menu Principal";
+}
+
+<div class="text-center mt-5">
+    <h2 style="color: #0066ff;">Menu Principal</h2>
+
+    <div class="mt-4">
+        <a asp-controller="Agendamento" asp-action="Create" class="btn btn-primary btn-lg w-25 mb-3">Agendar Transporte</a>
+    </div>
+
+    <div>
+        <a asp-controller="Agendamento" asp-action="Index" class="btn btn-primary btn-lg w-25 mb-3">Visualizar Agendamentos</a>
+    </div>
+
+    <div>
+        <a asp-controller="Agendamento" asp-action="CancelarAgendamento" class="btn btn-danger">Cancelar Agendamento</a>
+
+    </div>
+    <div>
+        <a asp-controller="Agendamento" asp-action="Exportar" class="btn btn-danger">Exportar</a>
+
+    </div>
+
+
+    <div>
+        <a asp-controller="Usuario" asp-action="Logout" class="btn btn-link text-danger">Sair</a>
+    </div>
+</div>

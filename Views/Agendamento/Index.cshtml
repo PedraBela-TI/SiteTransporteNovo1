@@ -1,0 +1,131 @@
+﻿@model IEnumerable<SiteTransporteNovo.Models.Agendamento>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Visualizar Agendamentos";
+    var tipoUsuario = ViewBag.TipoUsuario?.ToString();
+}
+
+<h2 class="text-center my-4">Visualizar Agendamentos</h2>
+
+<!-- Formulário de Filtro -->
+<form method="get" class="row row-cols-auto g-3 align-items-end mb-4">
+    <!-- ... (seus campos de filtro permanecem iguais) -->
+</form>
+
+<!-- Botões -->
+<div class="mb-3">
+    <a class="btn btn-secondary me-2" asp-action="ImprimirAgendamentos" asp-route-buscaData="@Context.Request.Query["buscaData"]" asp-route-buscaHora="@Context.Request.Query["buscaHora"]" asp-route-buscaLocal="@Context.Request.Query["buscaLocal"]" asp-route-buscaNome="@Context.Request.Query["buscaNome"]" asp-route-buscaLocalBusca="@Context.Request.Query["buscaLocalBusca"]" target="_blank">Imprimir</a>
+    <a asp-controller="Menu" asp-action="Index" class="btn btn-primary me-2">Voltar ao Menu</a>
+</div>
+
+<!-- Tabela -->
+<div id="areaTabela">
+    <table class="table table-bordered table-striped w-100">
+        <thead class="table-dark">
+            <tr>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Local Consulta</th>
+                <th>Local Busca</th>
+                <th>Ponto Referência</th>
+                <th>Motivo</th>
+                <th>Acompanhante</th>
+                <th>Responsável</th>
+                <th>Observação</th>
+                <th>Tipo de Carro</th>
+                @if (tipoUsuario == "Admin")
+                {
+                    <th>Ações</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                // Define a cor da linha com base no tipo de carro
+                string rowClass = "";
+                if (item.TipoCarro == "Carro Prioritário")
+                {
+                    rowClass = "table-warning"; // amarelo
+                }
+                else if (item.TipoCarro == "Ambulância" || item.TipoCarro == "Ambulância com Oxigênio")
+                {
+                    rowClass = "table-danger"; // vermelho
+                }
+
+                // Define se o local de busca deve ficar vermelho
+                string localBuscaClass = "";
+                if ((item.TipoCarro == "Ambulância" || item.TipoCarro == "Ambulância com Oxigênio") &&
+                !string.Equals(item.LocalBusca, "PS", StringComparison.OrdinalIgnoreCase))
+                {
+                    localBuscaClass = "text-danger fw-bold";
+                }
+
+                <tr class="@rowClass">
+                    <td>@item.Nome</td>
+                    <td>@item.Telefone</td>
+                    <td>@item.Data.ToShortDateString()</td>
+                    <td>@item.Hora</td>
+                    <td>
+                        @item.LocalConsulta
+                        @if (!string.IsNullOrEmpty(item.OutroLocalConsulta))
+                        {
+                            <div><strong>Outro:</strong> @item.OutroLocalConsulta</div>
+                        }
+                    </td>
+                    <td class="@localBuscaClass">
+                        @item.LocalBusca
+                        @if (!string.IsNullOrEmpty(item.OutroLocalBusca))
+                        {
+                            <div><strong>Outro:</strong> @item.OutroLocalBusca</div>
+                        }
+                    </td>
+                    <td>@item.PontoReferencia</td>
+                    <td>@item.Motivo</td>
+                    <td>@(item.PrecisaAcompanhante ? "Sim" : "Não")</td>
+                    <td>@item.Responsavel</td>
+                    <td>@item.Observacao</td>
+                    <td>
+                        @if (item.TipoCarro == "Outro")
+                        {
+                            @item.TipoCarroOutro
+                        }
+                        else
+                        {
+                            @item.TipoCarro
+                        }
+                    </td>
+                    @if (tipoUsuario == "Admin")
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
+                            <a asp-action="Cancelar" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Cancelar</a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    body {
+        overflow-x: hidden;
+    }
+
+    table {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .text-danger {
+        color: #dc3545 !important;
+    }
+
+    .fw-bold {
+        font-weight: bold !important;
+    }
+</style>
