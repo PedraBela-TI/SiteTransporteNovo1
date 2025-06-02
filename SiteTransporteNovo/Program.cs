@@ -1,15 +1,16 @@
 ﻿using SiteTransporteNovo.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.DependencyInjection;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-// ✅ Configura conexão SQLite
+// ✅ Configura conexão com MySQL (via Pomelo)
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 // ✅ Configura sessão
 builder.Services.AddSession(options =>
 {
@@ -20,23 +21,6 @@ builder.Services.AddSession(options =>
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
-
-// ✅ Ativa PRAGMA WAL (Write-Ahead Logging)
-using (var scope = app.Services.CreateScope())
-{
-    var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
-    var connectionString = configuration.GetConnectionString("DefaultConnection");
-
-    using (var connection = new SqliteConnection(connectionString))
-    {
-        connection.Open();
-        using (var command = connection.CreateCommand())
-        {
-            command.CommandText = "PRAGMA journal_mode=WAL;";
-            command.ExecuteNonQuery();
-        }
-    }
-}
 
 if (!app.Environment.IsDevelopment())
 {

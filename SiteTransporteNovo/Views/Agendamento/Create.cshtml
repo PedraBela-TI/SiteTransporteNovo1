@@ -90,6 +90,30 @@
             <input type="radio" asp-for="PrecisaAcompanhante" value="false" checked /> Não
             <span asp-validation-for="PrecisaAcompanhante" class="text-danger"></span>
         </div>
+        <div class="mb-3">
+            <label for="TipoCarro" class="form-label">Tipo de Carro</label>
+            <select id="TipoCarro" name="TipoCarro" class="form-select" onchange="mostrarCampoOutro(this)">
+                <option value="">Selecione</option>
+                <option value="Normal">Normal</option>
+                <option value="Carro Prioritário">Carro Prioritário</option>
+                <option value="Ambulância">Ambulância</option>
+                <option value="Ambulância com Oxigênio">Ambulância com Oxigênio</option>
+                <option value="Outro">Outro</option>
+            </select>
+        </div>
+
+        <div id="campoOutro" class="mb-3" style="display:none;">
+            <label for="TipoCarroOutro" class="form-label">Especifique o tipo</label>
+            <input type="text" id="TipoCarroOutro" name="TipoCarroOutro" class="form-control" />
+        </div>
+
+        <script>
+            function mostrarCampoOutro(select) {
+                const outro = document.getElementById("campoOutro");
+                outro.style.display = select.value === "Outro" ? "block" : "none";
+            }
+        </script>
+
 
         <div class="mb-3">
             <label asp-for="Observacao" class="form-label">Observação</label>

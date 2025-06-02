@@ -40,5 +40,9 @@ namespace SiteTransporteNovo.Models
         [BindNever]
         public string? Responsavel { get; set; }
 
+        public string TipoCarro { get; set; }
+        public string? TipoCarroOutro { get; set; } // campo opcional para "outros"
+
+
     }
 }

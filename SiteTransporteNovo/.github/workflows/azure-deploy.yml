@@ -1,0 +1,36 @@
+﻿name: Deploy to Azure App Service
+
+on:
+  push:
+    branches:
+      - master # Ou sua branch principal
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x' # Use a versão correta do seu projeto
+
+    - name: Restore dependencies
+      run: dotnet restore SiteTransporteNovo.csproj
+
+    - name: Build
+      run: dotnet build SiteTransporteNovo.csproj --configuration Release
+
+    - name: Publish
+      run: dotnet publish SiteTransporteNovo.csproj --configuration Release --output ./publish
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'SiteTransporte' # Use o nome do seu App Service no Azure
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_SECRET }}
+        package: './publish'

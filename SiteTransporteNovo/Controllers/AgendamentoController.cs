@@ -70,6 +70,38 @@ namespace SiteTransporteNovo.Controllers
 
             return View(agendamentos.ToList());
         }
+        public IActionResult Exportar(DateTime? data, string? local)
+        {
+            var query = _context.Agendamentos.AsQueryable();
+
+            if (data.HasValue)
+            {
+                query = query.Where(a => a.Horario.Date == data.Value.Date);
+                ViewBag.DataFiltro = data.Value.ToString("yyyy-MM-dd");
+            }
+
+            if (!string.IsNullOrWhiteSpace(local))
+            {
+                query = query.Where(a => a.Local.Contains(local));
+                ViewBag.LocalFiltro = local;
+            }
+
+            var dadosFiltrados = query.Select(a => new
+            {
+                a.Horario,
+                a.Local,
+                a.Paciente,
+                a.Acompanhante,
+                a.LocalDeBusca,
+                a.Motivo,
+                a.Telefone
+            }).ToList();
+
+            return View(dadosFiltrados);
+        }
+
+
+
 
         // GET: Agendamento/ImprimirAgendamentos
         public IActionResult ImprimirAgendamentos(string buscaData, string buscaHora, string buscaLocal, string buscaNome)
