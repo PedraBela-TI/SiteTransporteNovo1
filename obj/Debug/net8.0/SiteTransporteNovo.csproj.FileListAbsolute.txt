@@ -9,6 +9,7 @@ C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\SiteTransp
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\SiteTransporteNovo.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\SiteTransporteNovo.pdb
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Humanizer.dll
+C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
@@ -18,16 +19,7 @@ C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Mono.TextTemplating.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\MySqlConnector.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\Pomelo.EntityFrameworkCore.MySql.dll
@@ -37,8 +29,6 @@ C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\System.Com
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\System.Composition.Hosting.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\System.Composition.Runtime.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\System.Composition.TypedParts.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\System.Text.Encodings.Web.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\System.Text.Json.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.resources.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.resources.dll
@@ -91,7 +81,6 @@ C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\ru\Microso
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\SiteTransporteNovo.csproj.AssemblyReference.cache
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\SiteTransporteNovo.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\SiteTransporteNovo.AssemblyInfoInputs.cache
@@ -113,10 +102,10 @@ C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\staticweba
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.SiteTransporteNovo.props
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.SiteTransporteNovo.props
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\SiteTran.D70F85EB.Up2Date
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\SiteTransporteNovo.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\refint\SiteTransporteNovo.dll
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\SiteTransporteNovo.pdb
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\SiteTransporteNovo.genruntimeconfig.cache
 C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\ref\SiteTransporteNovo.dll
-C:\Users\cenci\SiteTRansporteNovo\SiteTransporteNovo\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

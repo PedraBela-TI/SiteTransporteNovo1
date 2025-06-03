@@ -33,7 +33,7 @@ namespace SiteTransporteNovo.Controllers
             {
                 "Araras", "Bairro Maciel", "Bairro do Ribeiro", "Boca da Mata", "Campanha",
                 "Campo", "Córrego Raso", "Estiva", "Limas",
-                "Paiol das Telhas", "Pedra Bela", "Pitangueiras de baixo", "Pitangueiras de cima",
+                "Paiol das Telhas", "Pedra Bela", "Pitangueiras de baixo", "PS","Pitangueiras de cima",
                 "Pitangueiras do meio", "Sertãozinho", "Vargem", "Vargem do Monjolo", "Tuncuns", "Outros"
             };
 
@@ -73,36 +73,68 @@ namespace SiteTransporteNovo.Controllers
 
             return View(agendamentos.ToList());
         }
-        public IActionResult Exportar(DateTime? data, string? local)
+        public IActionResult Exportar(string data, string local, string hora) // Alterado para 'data', 'local', 'hora' para casar com a View
         {
             var query = _context.Agendamentos.AsQueryable();
 
-            if (data.HasValue)
+            // 1. Correção e implementação do filtro de data
+            if (!string.IsNullOrEmpty(data) && DateTime.TryParse(data, out DateTime dataFiltrada))
             {
-                query = query.Where(a => a.Hora.Contains(data.Value.ToString("yyyy-MM-dd")));
-
-                ViewBag.DataFiltro = data.Value.ToString("yyyy-MM-dd");
+                query = query.Where(a => a.Data.Date == dataFiltrada.Date);
+                ViewBag.DataFiltro = data; // Para manter o valor no filtro na View
             }
 
+            // 2. Implementação do filtro de local (agora inclui OutroLocalConsulta)
             if (!string.IsNullOrWhiteSpace(local))
             {
-                query = query.Where(a => a.LocalConsulta.Contains(local));
-                ViewBag.LocalFiltro = local;
+                query = query.Where(a => a.LocalConsulta.Contains(local) ||
+                                         (!string.IsNullOrEmpty(a.OutroLocalConsulta) && a.OutroLocalConsulta.Contains(local)));
+                ViewBag.LocalFiltro = local; // Para manter o valor no filtro na View
             }
 
-            var dadosFiltrados = query.Select(a => new
+            // 3. Implementação do filtro de hora
+            if (!string.IsNullOrWhiteSpace(hora))
             {
-                a.Hora,
-                a.LocalConsulta,
-                a.Nome,
-                a.PrecisaAcompanhante,
-                a.LocalBusca,
-                a.Motivo,
-                a.Telefone
-            }).ToList();
+                // Assume que a.Hora é string (ex: "HH:mm")
+                query = query.Where(a => a.Hora.Contains(hora));
+                ViewBag.HoraFiltro = hora; // Para manter o valor no filtro na View
+            }
 
-            return View(dadosFiltrados);
+            // Popula os dados para os dropdowns na View
+            var locaisConsultaUnicos = _context.Agendamentos
+                                            .Select(a => a.LocalConsulta)
+                                            .Where(l => !string.IsNullOrEmpty(l))
+                                            .Distinct()
+                                            .OrderBy(l => l)
+                                            .ToList();
+            var outrosLocaisConsultaUnicos = _context.Agendamentos
+                                                    .Select(a => a.OutroLocalConsulta)
+                                                    .Where(l => !string.IsNullOrEmpty(l))
+                                                    .Distinct()
+                                                    .OrderBy(l => l)
+                                                    .ToList();
+            // Combina os locais únicos e remove duplicatas, se houver
+            var todosLocaisConsulta = locaisConsultaUnicos
+                                    .Union(outrosLocaisConsultaUnicos)
+                                    .Distinct()
+                                    .OrderBy(l => l)
+                                    .ToList();
+            ViewBag.LocaisConsulta = todosLocaisConsulta;
+
+
+            var horasUnicas = _context.Agendamentos
+                                    .Select(a => a.Hora)
+                                    .Where(h => !string.IsNullOrEmpty(h))
+                                    .Distinct()
+                                    .OrderBy(h => h)
+                                    .ToList();
+            ViewBag.HorasUnicas = horasUnicas;
+
+
+            // IMPORTANTE: Retorna IQueryable<Agendamento> diretamente, sem .Select() para tipo anônimo
+            return View(query.ToList());
         }
+
 
 
 

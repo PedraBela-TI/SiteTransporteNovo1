@@ -2,11 +2,12 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewData["Title"] = "Visualizar Agendamentos";
+    ViewData["Title"] = "Cancelar/Editar Agendamentos";
     var tipoUsuario = ViewBag.TipoUsuario?.ToString();
 }
 
-<h2 class="text-center my-4">Visualizar Agendamentos</h2>
+<h2 class="text-center my-4">Cancelar/Editar Agendamentos</h2>
+<p>Tipo de Usuário: @ViewBag.TipoUsuario</p>
 
 <form method="get" class="row g-3 mb-4">
     <div class="col-md-2">
@@ -24,10 +25,9 @@
             @foreach (var local in ViewBag.Locais as List<string>)
             {
                 var selecionado = HttpContextAccessor.HttpContext.Request.Query["buscaLocal"] == local ? "selected" : "";
-                <option value="@local" @@selecionado>@local</option>
+                <option value="@local" selected="@(selecionado)">@local</option>
             }
         </select>
-
     </div>
     <div class="col-md-3">
         <label>Paciente</label>
@@ -35,21 +35,16 @@
     </div>
     <div class="col-md-2 d-flex align-items-end">
         <button type="submit" class="btn btn-primary me-2">Filtrar</button>
-        <a asp-action="Index" class="btn btn-secondary">Limpar Filtros</a>
-
-
+        <a asp-action="CancelarAgendamento" class="btn btn-secondary">Limpar Filtros</a>
     </div>
     <div class="mb-3">
-        <a asp-controller="Menu" asp-action="Index" class="btn btn-primary me-2">Voltar ao Menu</a>
+         <a asp-controller="Menu" asp-action="Index" class="btn btn-primary me-2">Voltar ao Menu</a>
     </div>
-    
 </form>
-
-
 
 <div id="areaTabela">
     <table class="table table-bordered table-striped w-100">
-        <thead class="table-dark">
+        <thead>
             <tr>
                 <th>Nome</th>
                 <th>Telefone</th>
@@ -61,56 +56,56 @@
                 <th>Motivo</th>
                 <th>Acompanhante</th>
                 <th>Responsável</th>
-                @if (tipoUsuario == "Admin")
-                {
-                    <th>Ações</th>
-                }
+                <th>Ações</th>
+               
+                
+              
+                
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
+        <tbody>
+                @foreach (var item in Model)
+                {
+                    var tipoUsuarioLocal = ViewBag.TipoUsuario?.ToString();
+                <p>Tipo (Dentro do Loop): @ViewBag.TipoUsuario</p>
+
+
                 <tr>
                     <td>@item.Nome</td>
                     <td>@item.Telefone</td>
                     <td>@item.Data.ToShortDateString()</td>
                     <td>@item.Hora</td>
                     <td>
-                        @item.LocalConsulta
-                        @if (!string.IsNullOrEmpty(item.OutroLocalConsulta))
-                        {
+                            @item.LocalConsulta
+                            @if (!string.IsNullOrEmpty(item.OutroLocalConsulta))
+                            {
                             <div><strong>Outro:</strong> @item.OutroLocalConsulta</div>
-                        }
+                            }
                     </td>
                     <td>
-                        @item.LocalBusca
-                        @if (!string.IsNullOrEmpty(item.OutroLocalBusca))
-                        {
+                            @item.LocalBusca
+                            @if (!string.IsNullOrEmpty(item.OutroLocalBusca))
+                            {
                             <div><strong>Outro:</strong> @item.OutroLocalBusca</div>
-                        }
+                            }
                     </td>
                     <td>@item.PontoReferencia</td>
                     <td>@item.Motivo</td>
                     <td>@(item.PrecisaAcompanhante ? "Sim" : "Não")</td>
                     <td>@item.Responsavel</td>
-
-                    @if (tipoUsuario == "Admin")
-                    {
+                       
                         <td>
-                           
-                            <a asp-action="Cancelar" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Cancelar</a>
-
-
+                            <a asp-action="Cancelar" asp-route-id="@item.Id" class="btn btn-sm btn-danger me-2">Cancelar</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
                         </td>
-                    }
+                        
                 </tr>
-            }
+                }
         </tbody>
+       
     </table>
-
 </div>
-
-
 
 <style>
     body {

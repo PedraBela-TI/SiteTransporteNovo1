@@ -4,11 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 
 
-using SiteTransporteNovo.Models; // Garanta que este namespace esteja correto para seus modelos
+using SiteTransporteNovo.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity; // Garanta que este namespace esteja correto para seus modelos
 
 namespace SiteTransporteNovo.Data // <-- ESSA LINHA É CRÍTICA!
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
@@ -36,16 +38,15 @@ namespace SiteTransporteNovo.Data // <-- ESSA LINHA É CRÍTICA!
 
             // --- Data Seeding para a tabela Usuarios ---
             modelBuilder.Entity<Usuario>().HasData(
-                new Usuario
-                {
-                    Id = 1,
-                    Nome = "Renato",
-                    // IMPORTANTE: Em produção, use senhas hashadas.
-                    // Exemplo com BCrypt (você precisaria do pacote BCrypt.Net-Next):
-                    // Senha = BCrypt.Net.BCrypt.HashPassword("123456"),
-                    Senha = "123456", // Apenas para teste inicial, MUDE ISSO EM PRODUÇÃO!
-                    Tipo = "Administrador"
-                },
+                 new Usuario
+                 {
+                     Id = 6,
+                     Nome = "Renato",
+                     // Senha = BCrypt.Net.BCrypt.HashPassword("1234"),
+                     Senha = "1234", // Apenas para teste inicial, MUDE ISSO EM PRODUÇÃO!
+                     Tipo = "Admin"
+                 },
+
                 new Usuario
                 {
                     Id = 2,

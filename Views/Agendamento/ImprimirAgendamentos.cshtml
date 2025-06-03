@@ -17,31 +17,87 @@
             font-family: Arial, sans-serif;
         }
 
+        /* Estilos gerais da tabela para impressão */
         table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 10px; /* Mantendo o tamanho de fonte menor para impressão */
         }
 
         th, td {
-            border: 1px solid #000;
+            border: 1px solid #000; /* Borda preta sólida para impressão */
             padding: 8px;
             text-align: left;
-            font-size: 10px;
         }
 
-        th {
-            background-color: #f2f2f2;
+        /* Remova esta linha se você não quer fundo cinza no cabeçalho.
+                   Vamos redefinir com as cores do Bootstrap.
+                th {
+                    background-color: #f2f2f2;
+                }
+                */
+
+        /* Estilos para o cabeçalho da tabela (table-dark) - ADICIONADO/MODIFICADO */
+        .table-dark thead,
+        .table-dark th {
+            background-color: #343a40 !important; /* Cor de fundo do thead do Bootstrap Dark */
+            color: #fff !important; /* Cor do texto do thead do Bootstrap Dark */
+            -webkit-print-color-adjust: exact; /* Garante a impressão da cor de fundo */
+            color-adjust: exact; /* Garante a impressão da cor de fundo */
+        }
+
+        /* Estilos para linhas alternadas (table-striped) - ADICIONADO/MODIFICADO */
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.05) !important; /* Cor de fundo para linhas ímpares (Bootstrap Striped) */
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact;
+        }
+
+        /* Estilos para bordas da tabela (table-bordered) - ADICIONADO/MODIFICADO */
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #dee2e6 !important; /* Cor da borda do Bootstrap */
+        }
+
+        /* Estilos para as cores das linhas baseadas no TipoCarro */
+        .table-warning {
+            background-color: #ffc107 !important; /* Cor amarela do Bootstrap */
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact;
+        }
+
+        .table-danger {
+            background-color: #dc3545 !important; /* Cor vermelha do Bootstrap */
+            color: #fff !important; /* Texto branco para melhor contraste no vermelho */
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact;
+        }
+
+        /* Estilos para o local de busca em destaque */
+        .text-danger {
+            color: #dc3545 !important;
+        }
+
+        .fw-bold {
+            font-weight: bold !important;
+        }
+
+        /* Remover elementos não necessários para impressão */
+        .mb-2, .btn, form { /* Oculta o botão "Voltar" e o formulário de filtro na impressão */
+            display: none;
+        }
+
+        /* Força a tabela a ocupar 100% da largura, se necessário, e remove overflow */
+        #areaTabela {
+            overflow-x: visible !important;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h2 class="text-center mb-3">Lista de Agendamentos</h2>
-        <div class="mb-2">
-            <a asp-action="Index" class="btn btn-secondary">Voltar</a>
-        </div>
-        <table class="table table-bordered">
-            <thead>
+        <table class="table table-bordered table-striped w-100">
+            <thead class="table-dark text-center align-middle">
                 <tr>
                     <th>Nome</th>
                     <th>Telefone</th>
@@ -52,14 +108,29 @@
                     <th>Ponto Referência</th>
                     <th>Motivo</th>
                     <th>Acompanhante</th>
-                    <th>Responsável</th>
+                   
                     <th>Observação</th>
+                    <th>Tipo de Carro</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    string rowClass = "";
+                    if (item.TipoCarro == "Carro Prioritário")
+                    {
+                        rowClass = "table-warning"; // amarelo
+                    }
+                    else if (item.TipoCarro == "Ambulância" || item.TipoCarro == "Ambulância com Oxigênio")
+                    {
+                        rowClass = "table-danger"; // vermelho
+                    }
+
+                    bool localBuscaDestaque = !string.IsNullOrEmpty(item.LocalBusca)
+                    && !string.Equals(item.LocalBusca, "PS", StringComparison.OrdinalIgnoreCase)
+                    && !string.Equals(item.LocalBusca, "Pedra Bela", StringComparison.OrdinalIgnoreCase);
+
+                    <tr class="@rowClass text-center align-middle">
                         <td>@item.Nome</td>
                         <td>@item.Telefone</td>
                         <td>@item.Data.ToShortDateString()</td>
@@ -71,7 +142,7 @@
                                 <div><strong>Outro:</strong> @item.OutroLocalConsulta</div>
                             }
                         </td>
-                        <td>
+                        <td class="@(localBuscaDestaque ? "text-danger fw-bold" : "")">
                             @item.LocalBusca
                             @if (!string.IsNullOrEmpty(item.OutroLocalBusca))
                             {
@@ -81,8 +152,18 @@
                         <td>@item.PontoReferencia</td>
                         <td>@item.Motivo</td>
                         <td>@(item.PrecisaAcompanhante ? "Sim" : "Não")</td>
-                        <td>@item.Responsavel</td>
+                       
                         <td>@item.Observacao</td>
+                        <td>
+                            @if (item.TipoCarro == "Outro")
+                            {
+                                @item.TipoCarroOutro
+                            }
+                            else
+                            {
+                                @item.TipoCarro
+                            }
+                        </td>
                     </tr>
                 }
             </tbody>

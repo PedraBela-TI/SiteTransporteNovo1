@@ -3,26 +3,79 @@
 
 @{
     ViewData["Title"] = "Visualizar Agendamentos";
-    var tipoUsuario = ViewBag.TipoUsuario?.ToString();
+    var tipoUsuario = ViewBag.TipoUsuario?.ToString() ?? "";
+    
+    // Extrair os locais únicos de consulta para o filtro dropdown (ordenado alfabeticamente)
+    var locaisConsulta = Model
+        .Select(a => a.LocalConsulta)
+        .Distinct()
+        .OrderBy(l => l)
+        .ToList();
+    
+    // Opcionalmente, incluir "Outros" no final se precisar
+    if (!locaisConsulta.Contains("Outros"))
+    {
+        locaisConsulta.Add("Outros");
+    }
 }
 
 <h2 class="text-center my-4">Visualizar Agendamentos</h2>
 
 <!-- Formulário de Filtro -->
 <form method="get" class="row row-cols-auto g-3 align-items-end mb-4">
-    <!-- ... (seus campos de filtro permanecem iguais) -->
+    <div class="col">
+        <label for="buscaData" class="form-label">Data</label>
+        <input type="date" name="buscaData" id="buscaData" class="form-control" value="@Context.Request.Query["buscaData"]" />
+    </div>
+    <div class="col">
+        <label for="buscaHora" class="form-label">Hora</label>
+        <input type="time" name="buscaHora" id="buscaHora" class="form-control" value="@Context.Request.Query["buscaHora"]" />
+    </div>
+    <div class="col">
+        <label for="buscaLocal" class="form-label">Local Consulta</label>
+        <select name="buscaLocal" id="buscaLocal" class="form-select">
+            <option value="">Todos</option>
+            @foreach (var local in locaisConsulta)
+            {
+                var selected = Context.Request.Query["buscaLocal"] == local ? "selected" : "";
+                <option value="@local" selected="@(Context.Request.Query["buscalocal"] == local ? "selected" : null)">@local</option>
+
+
+
+
+            }
+        </select>
+    </div>
+    <div class="col">
+        <label for="buscaLocalBusca" class="form-label">Local Busca</label>
+        <input type="text" name="buscaLocalBusca" id="buscaLocalBusca" class="form-control" placeholder="Local para ir buscar" value="@Context.Request.Query["buscaLocalBusca"]" />
+    </div>
+    <div class="col">
+        <label for="buscaNome" class="form-label">Nome Paciente</label>
+        <input type="text" name="buscaNome" id="buscaNome" class="form-control" placeholder="Nome do paciente" value="@Context.Request.Query["buscaNome"]" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <a href="@Url.Action("Index")" class="btn btn-secondary ms-2">Limpar Filtros</a>
+    </div>
 </form>
 
-<!-- Botões -->
+<!-- Botões de ação -->
 <div class="mb-3">
-    <a class="btn btn-secondary me-2" asp-action="ImprimirAgendamentos" asp-route-buscaData="@Context.Request.Query["buscaData"]" asp-route-buscaHora="@Context.Request.Query["buscaHora"]" asp-route-buscaLocal="@Context.Request.Query["buscaLocal"]" asp-route-buscaNome="@Context.Request.Query["buscaNome"]" asp-route-buscaLocalBusca="@Context.Request.Query["buscaLocalBusca"]" target="_blank">Imprimir</a>
+    <a class="btn btn-secondary me-2" asp-action="ImprimirAgendamentos"
+       asp-route-buscaData="@Context.Request.Query["buscaData"]"
+       asp-route-buscaHora="@Context.Request.Query["buscaHora"]"
+       asp-route-buscaLocal="@Context.Request.Query["buscaLocal"]"
+       asp-route-buscaNome="@Context.Request.Query["buscaNome"]"
+       asp-route-buscaLocalBusca="@Context.Request.Query["buscaLocalBusca"]"
+       target="_blank">Imprimir</a>
     <a asp-controller="Menu" asp-action="Index" class="btn btn-primary me-2">Voltar ao Menu</a>
 </div>
 
 <!-- Tabela -->
-<div id="areaTabela">
+<div id="areaTabela" style="overflow-x:auto;">
     <table class="table table-bordered table-striped w-100">
-        <thead class="table-dark">
+        <thead class="table-dark text-center align-middle">
             <tr>
                 <th>Nome</th>
                 <th>Telefone</th>
@@ -38,14 +91,13 @@
                 <th>Tipo de Carro</th>
                 @if (tipoUsuario == "Admin")
                 {
-                    <th>Ações</th>
+                    <th class="text-center">Ações</th>
                 }
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                // Define a cor da linha com base no tipo de carro
                 string rowClass = "";
                 if (item.TipoCarro == "Carro Prioritário")
                 {
@@ -56,15 +108,12 @@
                     rowClass = "table-danger"; // vermelho
                 }
 
-                // Define se o local de busca deve ficar vermelho
-                string localBuscaClass = "";
-                if ((item.TipoCarro == "Ambulância" || item.TipoCarro == "Ambulância com Oxigênio") &&
-                !string.Equals(item.LocalBusca, "PS", StringComparison.OrdinalIgnoreCase))
-                {
-                    localBuscaClass = "text-danger fw-bold";
-                }
+                // Local de busca fica vermelho e em negrito se diferente de "PS" e "Pedra Bela"
+                bool localBuscaDestaque = !string.IsNullOrEmpty(item.LocalBusca)
+                                         && !string.Equals(item.LocalBusca, "PS", StringComparison.OrdinalIgnoreCase)
+                                         && !string.Equals(item.LocalBusca, "Pedra Bela", StringComparison.OrdinalIgnoreCase);
 
-                <tr class="@rowClass">
+                <tr class="@rowClass text-center align-middle">
                     <td>@item.Nome</td>
                     <td>@item.Telefone</td>
                     <td>@item.Data.ToShortDateString()</td>
@@ -76,7 +125,7 @@
                             <div><strong>Outro:</strong> @item.OutroLocalConsulta</div>
                         }
                     </td>
-                    <td class="@localBuscaClass">
+                    <td class="@(localBuscaDestaque ? "text-danger fw-bold" : "")">
                         @item.LocalBusca
                         @if (!string.IsNullOrEmpty(item.OutroLocalBusca))
                         {
@@ -100,9 +149,9 @@
                     </td>
                     @if (tipoUsuario == "Admin")
                     {
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
-                            <a asp-action="Cancelar" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Cancelar</a>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1">Editar</a>
+                            <a asp-action="Cancelar" asp-route-id="@item.Id" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja cancelar este agendamento?');">Cancelar</a>
                         </td>
                     }
                 </tr>
